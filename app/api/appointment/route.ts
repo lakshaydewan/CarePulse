@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(request: Response) {
+export async function GET(request: Request) {
     const url = new URL(request.url)
     const limit = 5
     const page = parseInt(url.searchParams.get('page') ?? '1');
