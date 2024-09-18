@@ -1,13 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
-import { GetServerSidePropsContext } from 'next';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { getAppointmentData } from '@/app/actions';
 
-const Page = async (context: GetServerSidePropsContext) => {
-  const params = context.params as Params;
+const Page = async ({ params }: { params: Params }) => {
   const { appointmentID } = params;
-  
   // Convert appointmentID to an integer
   const ID = parseInt(appointmentID);
   const data = await getAppointmentData(ID);
