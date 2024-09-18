@@ -17,7 +17,7 @@ const Page = () => {
         } else {
             console.log("Go Ahead!!")
         }
-    }, [])
+    })
 
   return (
     <div className='bg-custom-dark'>
