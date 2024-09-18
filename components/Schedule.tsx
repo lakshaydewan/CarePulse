@@ -30,7 +30,7 @@ const Schedule = (props: CustomProps) => {
   const onsubmit = async (data: formData) => {
     setLoading(true)
     try {
-      const res =  await axios.put("http://localhost:3000/api/appointment", {
+      const res =  await axios.put("https://care-pulse-ten-flax.vercel.app/api/appointment", {
         appointmentId: props.appointmentID,
         status: "scheduled"
     })

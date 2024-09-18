@@ -95,7 +95,7 @@ const PatientForm = () => {
           formData.append(key, value.toString());
         }
       });
-      const res = await axios.post("http://localhost:3000/api/registration",
+      const res = await axios.post("https://care-pulse-ten-flax.vercel.app/registration",
           formData,
         {
           headers: {
