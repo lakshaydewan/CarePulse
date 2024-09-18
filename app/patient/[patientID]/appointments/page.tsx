@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import AppointmentForm from '@/components/Forms/AppointmentForm';
 
-const page = () => {
+const Page = () => {
   return (
     <div className="bg-custom-dark h-screen flex w-screen">
     <div className="lg:min-w-[50vw] w-full lg:px-28 md:px-20 px-10 flex flex-col justify-evenly">
@@ -23,4 +23,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page;
