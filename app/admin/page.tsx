@@ -6,7 +6,7 @@ import CustomDataTable from '@/components/CustomDataTable'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-const page = () => {
+const Page = () => {
     const router = useRouter()
     useLayoutEffect(() => {
         console.log("hi")
