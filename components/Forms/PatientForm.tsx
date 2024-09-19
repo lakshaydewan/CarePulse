@@ -29,7 +29,7 @@ const PatientForm = () => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const res = await axios.post("https://care-pulse-ten-flax.vercel.app/api/patient", {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/patient`, {
         fullName: data.fullName,
         email: data.email,
         phoneNumber: data.phoneNumber

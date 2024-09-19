@@ -29,7 +29,7 @@ export default function CustomDataTable() {
   useEffect(() => {
     setLoading(true)
      async function getData() {
-          const res = await axios.get(`https://care-pulse-ten-flax.vercel.app/api/appointment?page=${page}`);
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/appointment?page=${page}`);
           const data = (res.data.res);
           setData(data)
           setLoading(false)

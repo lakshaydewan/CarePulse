@@ -42,7 +42,7 @@ const AppointmentForm = () => {
         const isoDateStr = nextDay.toISOString();
         //the above logic was necessary to make the postgres DB happy
         //it only accepts DATETIME in ISOstringformat.
-        const res = await axios.post("https://care-pulse-ten-flax.vercel.app/api/appointment", {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/appointment`, {
                 patientId: patientId,
                 doctor: data.doctor,
                 date: isoDateStr,

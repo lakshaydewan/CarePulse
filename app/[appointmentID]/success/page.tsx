@@ -33,7 +33,7 @@ const Page = async ({ params }: { params: Params }) => {
       <div className='flex justify-center items-center pt-10'>
         <section className='flex flex-col items-center justify-center gap-8 md:gap-14'>
           <div className='flex flex-col justify-center items-center gap-4'>
-            <iframe src="/assets/gifs/success.gif"></iframe>
+            <Image width={250} height={250} alt='nothing' src="/assets/gifs/success.gif"></Image>
             <div className='text-custom-white text-2xl md:text-5xl font-sans font-normal text-center'>
               Your <span className='text-[#4ac97e]'>appointment request</span> has <br />
               been successfully submitted
@@ -50,7 +50,7 @@ const Page = async ({ params }: { params: Params }) => {
               </div>
               <div className='w-fit h-fit p-2 rounded-md bg-[#15191c] border border-input-border flex justify-center items-center gap-2'>
                 <Image
-                  src={`/assets/images/dr-${doctor.split(" ")[1]}.png`}
+                  src={`/assets/images/dr-${doctor.split(" ")[1].toLowerCase()}.png`}
                   width={30}
                   height={30}
                   alt="doctor-icon"
