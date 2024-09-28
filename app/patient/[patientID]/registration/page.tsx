@@ -20,7 +20,6 @@ const RegistrationPage = () => {
               <RegistrationForm />
             </div>
           </div>
-          {/* <Footer></Footer> */}
         </div>
         <div className='w-0 relative m-0 p-0 xl:w-full'>
           <div className="xl:w-full h-screen w-0 overflow-hidden flex justify-center rounded-md fixed ">

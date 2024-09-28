@@ -5,6 +5,7 @@ import PatientForm from "@/components/Forms/PatientForm";
 import Image from "next/image";
 
 export default function Home() {
+
   return (
       <div className="bg-custom-dark h-screen flex w-screen">
         <div className="lg:min-w-[50vw] w-full lg:px-28 md:px-20 px-10 flex flex-col justify-around">

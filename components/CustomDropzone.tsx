@@ -7,14 +7,14 @@ interface CustomDropzoneProps {
 }
 
 const CustomDropzone = (props: CustomDropzoneProps) => {
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<File>()
 
   return (
     <div className='flex flex-col gap-3 mt-3'>
       <Label className='text-custom-gray font-light'>Scanned Copy of Identification Document</Label>
       <Dropzone
         onDrop={(acceptedFiles) => {
-            setFiles(acceptedFiles);
+            setFiles(acceptedFiles[0]);
             props.cb(acceptedFiles);
         }}
       >
@@ -29,9 +29,9 @@ const CustomDropzone = (props: CustomDropzoneProps) => {
                 <span className='text-green-500'>Drag 'n' drop</span> some files here, or click to select files
               </p>
               <div>
-                {files.length > 0 && (
+                {files && (
                   <div className='text-custom-white font-normal text-md my-2'>
-                    {files[0].name}
+                    {files?.name}
                   </div>
                 )}
               </div>

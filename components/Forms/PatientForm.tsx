@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -22,9 +22,25 @@ const PatientForm = () => {
   const router = useRouter();
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false)
-  const { control, handleSubmit, formState: { errors }} = useForm<FormData>({
+  const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    console.log("ran");
+    async function getPatientID() {
+      const registrationID = localStorage.getItem("registrationID")
+      if (registrationID) {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/registration?registrationID=${registrationID}`)
+        const patientID = res.data.patient.id;
+        if (!patientID) {
+          return
+        }
+        router.push(`/patient/${patientID}/appointments`)
+      }
+    }
+    getPatientID();
+  }, [])
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -34,12 +50,14 @@ const PatientForm = () => {
         email: data.email,
         phoneNumber: data.phoneNumber
       });
-
-      // Assuming the API response contains the userID
-      const userID = res.data.userID;
+      const patient = res.data.patient;
+      const userID = patient.id
+      sessionStorage.setItem("patientName", patient.fullName);
+      sessionStorage.setItem("patientEmail", patient.email);
+      sessionStorage.setItem("patientPhoneNumber", patient.phoneNumber);
       // Redirect after successful submission
       router.push(`/patient/${userID}/registration`);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error submitting form:', error);
       setShowError(true)
       console.log(showError)
@@ -55,59 +73,59 @@ const PatientForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='flex flex-col gap-2'>
-      <Controller
-        name="fullName"
-        control={control}
-        render={({ field }) => (
-          <InputWithLabel
-            label="Full Name"
-            {...field} // Spreading field properties here
-            placeholder="Tyler Durden"
-            type="text"
-            iconSrc="/assets/icons/user.svg"
-            iconAlt="user-icon"
-            error={errors.fullName?.message} // Pass custom error message
-          />
-        )}
-      />
-      <Controller
-        name="email"
-        control={control}
-        render={({ field }) => (
-          <InputWithLabel
-            label="Email Address"
-            {...field} // Spreading field properties here
-            placeholder="tylerDurden@soap.com"
-            type="email"
-            iconSrc="/assets/icons/email.svg"
-            iconAlt="email-icon"
-            error={errors.email?.message} // Pass custom error message
-          />
-        )}
-      />
-      <Controller
-        name="phoneNumber"
-        control={control}
-        render={({ field }) => (
-          <InputWithLabel
-            label="Phone Number"
-            {...field} // Spreading field properties here
-            placeholder="+91 12345 67890"
-            type="tel"
-            iconSrc="/assets/icons/phone.svg"
-            iconAlt="tel-icon"
-            error={errors.phoneNumber?.message} // Pass custom error message
-          />
-        )}
-      />
-      <Button variant="default" type="submit" disabled={loading}>{loading ? "submitting...": "Get Started"}</Button>
-      {
-        showError && (
-          <div className='font-light text-green-500 text-sm mt-3'>
-            Error submitting Form make sure the email is unique.
-          </div>
-        )
-      }
+        <Controller
+          name="fullName"
+          control={control}
+          render={({ field }) => (
+            <InputWithLabel
+              label="Full Name"
+              {...field} // Spreading field properties here
+              placeholder="Tyler Durden"
+              type="text"
+              iconSrc="/assets/icons/user.svg"
+              iconAlt="user-icon"
+              error={errors.fullName?.message} // Pass custom error message
+            />
+          )}
+        />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <InputWithLabel
+              label="Email Address"
+              {...field} // Spreading field properties here
+              placeholder="tylerDurden@soap.com"
+              type="email"
+              iconSrc="/assets/icons/email.svg"
+              iconAlt="email-icon"
+              error={errors.email?.message} // Pass custom error message
+            />
+          )}
+        />
+        <Controller
+          name="phoneNumber"
+          control={control}
+          render={({ field }) => (
+            <InputWithLabel
+              label="Phone Number"
+              {...field} // Spreading field properties here
+              placeholder="+91 12345 67890"
+              type="tel"
+              iconSrc="/assets/icons/phone.svg"
+              iconAlt="tel-icon"
+              error={errors.phoneNumber?.message} // Pass custom error message
+            />
+          )}
+        />
+        <Button variant="default" type="submit" disabled={loading}>{loading ? "submitting..." : "Get Started"}</Button>
+        {
+          showError && (
+            <div className='font-light text-green-500 text-sm mt-3'>
+              Error submitting Form make sure the email is unique.
+            </div>
+          )
+        }
       </div>
     </form>
   );

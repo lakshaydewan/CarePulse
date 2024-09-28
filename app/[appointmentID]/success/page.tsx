@@ -9,12 +9,13 @@ const Page = async ({ params }: { params: Params }) => {
   const ID = parseInt(appointmentID);
   const data = await getAppointmentData(ID);
   console.log("data: ", data);
+  console.log(data.date);
 
   // Add checks to ensure `data` is available and contains the required fields
   if (!data.date || !data.doctor) {
     return <div className='w-screen h-screen bg-custom-dark text-white font-sans font-thin text-2xl justify-center items-center flex'>
         Error: Unable to fetch appointment data
-    </div>;
+    </div>
   }
 
   const date = data?.date?.toDateString() || 'No date available';

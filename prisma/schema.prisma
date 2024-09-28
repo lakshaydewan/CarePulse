@@ -20,7 +20,7 @@ model Patient {
 }
 
 model MedicalDetails {
-  id                      Int         @id @default(autoincrement())
+  id                      String      @id @default(uuid())
   patient                 Patient     @relation(fields: [patientId], references: [id])
   patientId               String      @unique
   fullName                String

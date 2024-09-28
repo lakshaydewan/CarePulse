@@ -2,9 +2,8 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  const data = { userID : '123123123' };
 
-  return NextResponse.json(data);
+  return NextResponse.json({});
 }
 
 export async function POST(request: Request) {
@@ -19,7 +18,7 @@ export async function POST(request: Request) {
       }
   })
   return NextResponse.json({
-    userID: patient.id
+    patient,
   });
   } catch (error) {
     return NextResponse.json({
