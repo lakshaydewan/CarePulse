@@ -1,5 +1,25 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { Twilio } from 'twilio'
+
+const accountSid: string = process.env.ACCOUNT_SID as string; // Replace with your Account SID
+const authToken: string = process.env.AUTH_TOKEN as string// Replace with your Auth Token
+
+// Create a Twilio client
+const client = new Twilio(accountSid, authToken);
+
+async function sendSMS(to: string, message: string) {
+    try {
+        const response = await client.messages.create({
+            body: message,
+            from: process.env.SENDER_NUMBER, // Replace with your Twilio number
+            to: to // The recipient's phone number
+        });
+        console.log(`Message sent: ${response.sid}`);
+    } catch (error) {
+        console.error(`Error sending message: ${error}`);
+    }
+}
 
 export async function POST(request: Request) {
     try {
@@ -15,7 +35,16 @@ export async function POST(request: Request) {
                 patientId: body.patientId,
             },
         });
-
+        const patient = await prisma.patient.findFirst({
+            where: {
+                id: res.patientId
+            }
+        })
+        const phoneNumber = patient?.phoneNumber as string;
+        console.log(phoneNumber)
+        console.log("Before SMS");
+        const SMS =  await sendSMS(phoneNumber, `Your requested Appointment has been created for the date ${res.date}`);
+        console.log("afterSMS: "+SMS);
         return NextResponse.json({
             msg: 'Appointment created successfully',
             res
