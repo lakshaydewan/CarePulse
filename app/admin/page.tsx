@@ -1,21 +1,34 @@
 "use client"
-import React, { useLayoutEffect, useEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import PrimaryHeading from '@/components/PrimaryHeading'
 import CustomDataTable from '@/components/CustomDataTable'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 const Page = () => {
     const router = useRouter()
+    const [pending, setPending] = useState(0)
+    const [cancelled, setCancelled] = useState(0)
+    const [scheduled, setScheduled] = useState(0)
+
+    const getCounts = async()=> {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/getCount`)
+        const data = res.data
+        setCancelled(data.canceledCount)
+        setPending(data.pendingCount)
+        setScheduled(data.scheduledCount);
+    }
+
     useLayoutEffect(() => {
-        console.log("hi")
         const secret = localStorage.getItem('secret')
         if (secret !== process.env.NEXT_PUBLIC_SECRET) {
             router.push('/')
             return console.log("Go back")
         } else {
             console.log("Go Ahead!!")
+            getCounts();
         }
     })
 
@@ -40,7 +53,7 @@ const Page = () => {
                                     >
                                     </Image>
                                     <div>
-                                        27
+                                        {scheduled}
                                     </div>
                                 </div>
                                 <div className='text-white font-light'>
@@ -59,7 +72,7 @@ const Page = () => {
                                     >
                                     </Image>
                                     <div>
-                                        15
+                                        {pending}
                                     </div>
                                 </div>
                                 <div className='text-white font-light'>
@@ -78,7 +91,7 @@ const Page = () => {
                                     >
                                     </Image>
                                     <div>
-                                        68
+                                        {cancelled}
                                     </div>
                                 </div>
                                 <div className='text-white font-light'>

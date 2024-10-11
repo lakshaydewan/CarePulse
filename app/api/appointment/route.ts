@@ -44,7 +44,6 @@ export async function POST(request: Request) {
         console.log(phoneNumber)
         console.log("Before SMS");
         const SMS =  await sendSMS(phoneNumber, `Your requested Appointment has been created for the date ${res.date}`);
-        console.log("afterSMS: "+SMS);
         return NextResponse.json({
             msg: 'Appointment created successfully',
             res
@@ -111,6 +110,26 @@ export async function PUT(request: Request) {
                 status: status,
             },
         });
+        const patient = await prisma.patient.findFirst({
+            where: {
+                id: updatedAppointment.patientId
+            }
+        })
+
+        if (status === "scheduled") {
+            try {
+                await sendSMS(patient?.phoneNumber as string, `Your appointment has been Successfully scheduled for the date: ${updatedAppointment.date}.`)
+            } catch (e) {
+                console.log("error while messaging: " + e)
+            }
+        } 
+        if (status === "cancelled") {
+            try {
+                await sendSMS(patient?.phoneNumber as string, `Your appointment has been cancelled for the date: ${updatedAppointment.date}.`)
+            } catch (e) {
+                console.log("error while messaging: " + e)
+            }
+        }
 
         return NextResponse.json({
             msg: 'Appointment updated successfully',

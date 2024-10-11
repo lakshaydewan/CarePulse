@@ -15,7 +15,6 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 export default function CustomDataTable() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
@@ -43,8 +42,10 @@ export default function CustomDataTable() {
           loading? (
             <>
                 <div className='bg-custom-dark w-full h-full flex justify-center items-center'>
-                <Image src={"/assets/icons/loader.svg"} width={200} height={200} alt={"nothing"}>
-                </Image>
+                <div className="w-[100px] h-[100px]">
+                  <Image className="w-full h-full" src={"/assets/icons/loader.svg"} width={200} height={200} alt={"nothing"}>
+                  </Image>
+                </div>
             </div>
             </>
           ): (

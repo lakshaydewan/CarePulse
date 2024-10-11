@@ -30,7 +30,7 @@ const Schedule = (props: CustomProps) => {
   const onsubmit = async (data: formData) => {
     setLoading(true)
     try {
-      const res =  await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/appointmen`, {
+      const res =  await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/appointment`, {
         appointmentId: props.appointmentID,
         status: "scheduled"
     })
